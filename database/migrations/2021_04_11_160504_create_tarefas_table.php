@@ -17,8 +17,9 @@ class CreateTarefasTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name', 100);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->boolean('done')->default(false);
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

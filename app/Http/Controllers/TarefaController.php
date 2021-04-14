@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TarefaController extends Controller
 {
@@ -19,9 +20,9 @@ class TarefaController extends Controller
     public function index()
     {
         if(auth()->user()){
-            $tarefas = auth()->user()->tarefas;
+            $tarefas = auth()->user()->tarefas->sortBy('done');
         }else{
-            $tarefas = Tarefa::all();
+            $tarefas = Tarefa::where('user_id', 2)->orderBy('done')->get();
         }
         
         return view('tarefas.index', compact('tarefas'));
@@ -45,10 +46,16 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'name' => 'required|unique:tarefas|max:100',
-            'description' => 'required',
-        ]);
+            'description' => 'sometimes',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages = [
+            'name.required' => 'O campo nome é obrigatório!',
+            'name.unique' => 'Já existe uma tarefa com esse nome, por favor escolha outro!',
+            'name.max' => 'O campo nome tem a capacidade máxima de 100 caracteres.',
+        ])->validate();
 
         auth()->user()->tarefas()->create($request->all());
 
@@ -88,13 +95,20 @@ class TarefaController extends Controller
      */
     public function update(Request $request, Tarefa $tarefa)
     {
-        $validated = $request->validate([
+        $rules = [
             'name' => 'required|max:100',
-            'description' => 'required',
-        ]);
+            'description' => 'sometimes',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages = [
+            'name.required' => 'O campo nome é obrigatório!',
+            'name.unique' => 'Já existe uma tarefa com esse nome, por favor escolha outro!',
+            'name.max' => 'O campo nome tem a capacidade máxima de 100 caracteres.',
+        ])->validate();
 
         $tarefa->name = $request->name;
         $tarefa->description = $request->description;
+        $tarefa->date = $request->date;
 
         if(isset($request->done)){
             $tarefa->done = $request->done;
@@ -115,6 +129,14 @@ class TarefaController extends Controller
     public function destroy(Tarefa $tarefa)
     {
         $tarefa->delete();
+
+        return redirect('/tarefas');
+    }
+
+    public function editstate(Tarefa $tarefa){
+
+        $tarefa->done = !$tarefa->done;
+        $tarefa->save();
 
         return redirect('/tarefas');
     }

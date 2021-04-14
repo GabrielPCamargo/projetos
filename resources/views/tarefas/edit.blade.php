@@ -16,8 +16,13 @@
             Completo: 
             <input name="done" type="radio" value="0" @if(!$tarefa->done)checked @endif>Não
             <input name="done" type="radio" value="1" @if($tarefa->done)checked @endif>Sim <br />
+            <label for="example-date-input" class="col-form-label">Data de finalização:</label>
+            <div>
+                <input name="date" class="form-control" type="date" value="{{$tarefa->date}}" id="example-date-input">
+            </div>
             
-            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-primary mr-auto mt-3" type="submit">Salvar</button>
+            <a class="btn btn-dark ml-5 mt-3" href="{{route('tarefas.index')}}">Voltar</a>
         </form>
     </div>
     

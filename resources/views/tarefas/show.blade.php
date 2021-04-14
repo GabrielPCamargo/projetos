@@ -13,8 +13,10 @@
             @if($tarefa->done)
                 <button class="btn btn-success">Completo</button>
             @else
-                <button class="btn btn-alert">Não completo</button>
+                <button class="btn btn-warning">Não completo</button>
             @endif
+            <br />
+            <a class="btn btn-dark mt-5" href="{{route('tarefas.index')}}">Voltar</a>
         </div>
        
     </div>

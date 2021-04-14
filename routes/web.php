@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::resource('tarefas', TarefaController::class);
+Route::put('tarefas/{tarefa}/edit/state', [TarefaController::class, 'editstate'])->name('tarefas.state');
 
 Auth::routes();
 
