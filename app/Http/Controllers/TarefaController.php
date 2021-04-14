@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TarefaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['store','create','destroy','update']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,12 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        $tarefas = Tarefa::all();
+        if(auth()->user()){
+            $tarefas = auth()->user()->tarefas;
+        }else{
+            $tarefas = Tarefa::all();
+        }
+        
         return view('tarefas.index', compact('tarefas'));
     }
 
@@ -41,9 +50,10 @@ class TarefaController extends Controller
             'description' => 'required',
         ]);
 
-        Tarefa::create($request->all());
+        auth()->user()->tarefas()->create($request->all());
 
-        $request->session()->flash('message', 'tarefa criada com sucesso');
+
+        $request->session()->flash('message', 'Tarefa criada com sucesso');
         return redirect('/tarefas');
     }
 

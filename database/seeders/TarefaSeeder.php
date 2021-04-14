@@ -6,18 +6,15 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+class TarefaSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call([
-            UserSeeder::class,
-            TarefaSeeder::class
-        ]);
+        DB::table('tarefas')->insert(['name' => 'Teste', 'description' => 'loremafdhahdfoadfaodfh', 'user_id' => 1]);
     }
 }

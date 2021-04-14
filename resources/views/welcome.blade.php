@@ -48,6 +48,9 @@
                 <h1>Projetos</h1>
                 <ul>
                     <li style="font-size: large;" ><a href="{{route('tarefas.index')}}">Lista de tarefas</a></li>
+                    <li style="font-size: large;" >Mini loja</li>
+                    <li style="font-size: large;" >Mini rede social</li>
+                    <li style="font-size: large;" >Blog</li>
                     
                 </ul>
             </div>

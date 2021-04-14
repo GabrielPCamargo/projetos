@@ -15,6 +15,7 @@ class CreateTarefasTable extends Migration
     {
         Schema::create('tarefas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('name', 100);
             $table->longText('description');
             $table->boolean('done')->default(false);
