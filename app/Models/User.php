@@ -45,4 +45,12 @@ class User extends Authenticatable
     public function tarefas(){
         return $this->hasMany(Tarefa::class);
     }
+
+    public function categories(){
+        return $this->hasMany(MoneyCategory::class);
+    }
+
+    public function activities(){
+        return $this->hasMany(Activity::class);
+    }
 }

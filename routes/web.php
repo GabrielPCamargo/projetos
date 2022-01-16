@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\TarefaController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,16 +17,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/category', function () {
+    return view('category');
+})->middleware('auth');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 //tarefas
 Route::resource('tarefas', TarefaController::class);
+Route::resource('finance', FinanceController::class);
 Route::put('tarefas/{tarefa}/edit/state', [TarefaController::class, 'editstate'])->name('tarefas.state');
 
-//lojaRoute::get('/loja', LojaController::class)
+//Route::get('/loja', LojaController::class)
 
+
+Route::post('/category', function (Request $request) {
+    $rules = [
+        'name' => 'required|unique:money_categories|max:100',
+        'percentage' => 'digits_between:1,99',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages = [
+        'name.required' => 'O campo nome é obrigatório!',
+        'name.unique' => 'Já existe uma categoria com esse nome, por favor escolha outro!',
+        'name.max' => 'O campo nome tem a capacidade máxima de 100 caracteres.',
+        'percentage.digits_between' => 'Você deve inserir um número entre 1 e 99'
+    ])->validate();
+
+    auth()->user()->categories()->create($request->all());
+
+
+    $request->session()->flash('message', 'Categoria criada com sucesso');
+    return redirect()->route('finance.create')->withInput();
+})->middleware('auth');
 
 Auth::routes();
 
