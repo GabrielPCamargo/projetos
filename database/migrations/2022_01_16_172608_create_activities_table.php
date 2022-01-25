@@ -22,6 +22,7 @@ class CreateActivitiesTable extends Migration
             $table->string('name', 100);
             $table->string('description', 100);
             $table->integer('price');
+            $table->boolean('spend');
             $table->date('date')->nullable();
         });
     }

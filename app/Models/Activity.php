@@ -9,5 +9,9 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'category_id', 'price', 'date'];
+    protected $fillable = ['name', 'description', 'category_id', 'price', 'date', 'spend'];
+
+    public function category() {
+        return $this->hasOne(MoneyCategory::class, 'id', 'category_id');
+    }
 }

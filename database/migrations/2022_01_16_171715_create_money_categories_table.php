@@ -18,6 +18,7 @@ class CreateMoneyCategoriesTable extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained();
             $table->string('name', 100);
+            $table->boolean('spend');
             $table->integer('percentage');
         });
     }

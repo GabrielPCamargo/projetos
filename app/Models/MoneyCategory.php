@@ -9,5 +9,5 @@ class MoneyCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'percentage'];
+    protected $fillable = ['name', 'percentage', 'spend'];
 }

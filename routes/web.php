@@ -28,7 +28,8 @@ Route::get('/', function () {
 
 //tarefas
 Route::resource('tarefas', TarefaController::class);
-Route::resource('finance', FinanceController::class);
+Route::resource('finance', FinanceController::class)->except('index');
+Route::get('/finance/view/{month?}', [FinanceController::class, 'index']);
 Route::put('tarefas/{tarefa}/edit/state', [TarefaController::class, 'editstate'])->name('tarefas.state');
 
 //Route::get('/loja', LojaController::class)

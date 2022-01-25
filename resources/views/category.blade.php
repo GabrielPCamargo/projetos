@@ -78,7 +78,7 @@
         <main class="py-4">
         <div class="d-flex justify-content-center align-items-center">
             <div style="min-width: 400px;">
-                <h1>Nova atividade financeira</h1>
+                <h1>Nova Categoria</h1>
                 @include('components.alert')
                 <form action="{{url('/category')}}" method="POST">
                     @csrf
@@ -87,6 +87,11 @@
                     
                     <label for="percentage">Porcentagem</label>
                     <input name="percentage" type="integer" value="{{old('price')}}"> <br />
+
+                    <select name="spend" id="">
+                        <option value="1">Gasto</option>
+                        <option value="0">Ganho</option>
+                    </select> <br />
 
                     <button class="btn btn-primary mt-4" type="submit">Criar</button>
                     <a class="btn btn-dark ml-5 mt-3" href="{{route('finance.create')}}">Voltar</a>
